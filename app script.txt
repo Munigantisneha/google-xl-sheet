@@ -1,0 +1,65 @@
+var sheetName = 'sheet'; // Ensure this is the correct sheet name
+var scriptProp = PropertiesService.getScriptProperties();
+
+function intialSetup() {
+  var activeSpreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  scriptProp.setProperty('key', activeSpreadsheet.getId());
+}
+
+function doGet() {
+  return HtmlService.createHtmlOutputFromFile('first');
+}
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+
+  try {
+    // Log entire event object for debugging
+    Logger.log('Event: ' + JSON.stringify(e));
+    
+    // Log parameters specifically
+    Logger.log('Parameters: ' + JSON.stringify(e.parameter));
+    
+    if (!e.parameter) {
+      return ContentService.createTextOutput(JSON.stringify({ 'result': 'error', 'error': 'No parameters received' }))
+                           .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    var doc = SpreadsheetApp.openById(scriptProp.getProperty('key'));
+    var sheet = doc.getSheetByName(sheetName);
+
+    var lastRow = sheet.getLastRow();
+    var nextId = lastRow + 1;
+
+    // Prepare new row
+    var newRow = [
+      nextId,
+      e.parameter.name || '',
+      e.parameter.email || '',
+      e.parameter.password || '',
+      e.parameter.parentname || '',
+      e.parameter.parentphone || '',
+      e.parameter.schoolname || '',
+      e.parameter.boardname || '',
+      e.parameter.subjects || '',
+      e.parameter.tuitionfee || ''
+    ];
+
+    // Log the new row data for debugging
+    Logger.log('New Row Data: ' + JSON.stringify(newRow));
+
+    sheet.appendRow(newRow);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'result': 'success', 'row': nextId }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    Logger.log('Error: ' + error.message); // Log error for debugging
+    return ContentService
+      .createTextOutput(JSON.stringify({ 'result': 'error', 'error': error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
