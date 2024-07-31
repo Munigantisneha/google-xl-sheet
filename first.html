@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body align="center">
+  <h1 align="center">Registration form</h1>
+  <div class="form-container">
+  <form id="myForm">
+    <label class="cl">Name:</label>
+    <input type="text" name="name" required>
+
+    <label class="cl1">Email: </label>
+    <input type="email" name="email"><br><br>
+
+ <label class="cl2">Password:</label>
+    <input type="password" name="password">
+
+    <label class="cl3">Parent Name:</label> 
+    <input type="text" name="parentname"><br><br>
+
+     <label class="cl4">Parent Number: </label>
+     <input type="tel" name="parentphone" maxlength="15">
+     <label class="cl5">School Name:</label>
+      <input type="text" name="schoolname"><br><br>
+      <label class="cl6">Board Name:</label>
+       <input type="text" name="boardname">
+       Subjects: 
+    <select name="subjects">
+      <option value="select option">select option</option>
+      <option value="Mathematics">Mathematics</option>
+      <option value="Science">Science</option>
+      <option value="English">English</option>
+      <option value="History">History</option>
+      <option value="Geography">Geography</option>
+      <option value="Biology">Biology</option>
+    </select><br><br>
+     <label class="cl7">Tuition Fee: </label>
+     <input type="number" name="tuitionfee"><br><br>
+
+
+    
+
+     <input class="reset-button" type="reset" value="Reset">
+    <input class="submit-button" type="button" value="Submit" onclick="submitForm()">
+  </form>
+</div>
+  <script>
+    function submitForm() {
+      var form = document.getElementById('myForm');
+        console.log("---------",form, "-----------------");
+      var formData = new FormData(form);
+        console.log("---------",formData, "-----------------");
+
+       for (var pair of formData.entries()) {
+        // console.log(pair[0] + ': ' + pair[1]);
+      }
+      
+      fetch('https://script.google.com/macros/s/AKfycbw8kYyuI9ihK0JJOiEtnMXPNhLmI_lT-jsR7eWCRuWVkbh1iNMq3YaXJjN9T75i7qeo/exec', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Form submitted successfully! Row number: ' + data.row);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</body>
+</html>

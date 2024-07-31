@@ -1,0 +1,63 @@
+body{
+	background-color: orange;
+}
+.form-container {
+      display:flex;
+      justify-content:space-between;
+       background-color: #ddd;
+       width:120vh;  
+       justify-content:center;
+         align-items:center;
+          margin: 0 auto; 
+           border:5px solid #ccc; 
+            padding:20px;     
+} 
+
+
+ 
+ .reset-button{
+            
+            margin-left:100px;
+            background-color: red;
+        }
+.submit-button{
+            margin-right:50px;
+            background-color: blue;
+        }
+.cl{
+    margin-left:20px;
+}
+.cl1{
+    margin-left:101px;
+}
+.cl2{
+    margin-left:50px;
+}
+
+.cl3{
+    margin-left:35px;
+}
+
+.cl4{
+    margin-left:40px;
+}
+.cl5{
+    margin-left:10px;
+}
+
+.cl6{
+    margin-left:-50px;
+}
+
+
+
+       
+
+
+
+
+
+
+
+
+    
